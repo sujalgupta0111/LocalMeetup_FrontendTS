@@ -1,122 +1,44 @@
 import { userServiceApiClient } from "@/api/axios";
 import type { AxiosError } from "axios";
 
-const endpointConfig = {
-  requestOtp:
-    import.meta.env.VITE_FORGOT_PASSWORD_REQUEST_OTP_URL ||
-    "/auth/forgot-password",
-  resendOtp:
-    import.meta.env.VITE_FORGOT_PASSWORD_RESEND_OTP_URL ||
-    "/auth/resend-otp",
-  verifyOtp:
-    import.meta.env.VITE_FORGOT_PASSWORD_VERIFY_OTP_URL ||
-    "/auth/verify-otp",
-  resetPassword:
-    import.meta.env.VITE_FORGOT_PASSWORD_RESET_URL ||
-    "/auth/reset-password",
-};
-
 interface ApiErrorResponse {
   message?: string;
   error?: string;
 }
 
-interface ForgotPasswordOtpPayload {
-  email: string;
-}
-
-interface VerifyForgotPasswordOtpPayload {
-  email: string;
-  otp: string;
-}
-
-interface ResetForgotPasswordPayload {
-  email: string;
-  otp: string;
-  newPassword: string;
-  confirmPassword: string;
-  resetToken?: string;
-}
-
-interface ResetPasswordApiPayload {
-  email: string;
-  otp: string;
-  password: string;
-  newPassword: string;
-  confirmPassword: string;
-  resetToken?: string;
-}
-
-const getApiMessage = (
-  error: unknown,
-  fallbackMessage: string
-): string => {
-  const apiError = error as AxiosError<ApiErrorResponse>;
+const getApiMessage = (error: unknown, fallbackMessage: string): string => {
+  const apiError = error as AxiosError<ApiErrorResponse | string>;
+  const responseData = apiError.response?.data;
 
   const backendMessage =
-    apiError.response?.data?.message ||
-    apiError.response?.data?.error ||
+    (typeof responseData === "string"
+      ? responseData
+      : responseData?.message || responseData?.error) ||
     apiError.message;
 
   return backendMessage || fallbackMessage;
 };
 
-export const sendForgotPasswordOtp = async ({
-  email,
-}: ForgotPasswordOtpPayload) => {
-  const response = await userServiceApiClient.post(
-    endpointConfig.requestOtp,
-    { email }
+const getOtpEndpoint = (  action: "GENERATE" | "VERIFY",  email: string
+): string =>
+  `/auth/otpVerify/${action}/${encodeURIComponent(email)}`;
+
+export const sendForgotPasswordOtp = async (email: string): Promise<string> => {
+  const response = await userServiceApiClient.post<string>(
+    getOtpEndpoint("GENERATE", email)
   );
 
   return response.data;
 };
 
-export const resendForgotPasswordOtp = async ({
-  email,
-}: ForgotPasswordOtpPayload) => {
-  const response = await userServiceApiClient.post(
-    endpointConfig.resendOtp,
-    { email }
-  );
-
-  return response.data;
-};
-
-export const verifyForgotPasswordOtp = async ({
-  email,
-  otp,
-}: VerifyForgotPasswordOtpPayload) => {
-  const response = await userServiceApiClient.post(
-    endpointConfig.verifyOtp,
-    { email, otp }
-  );
-
-  return response.data;
-};
-
-export const resetForgotPassword = async ({
-  email,
-  otp,
-  newPassword,
-  confirmPassword,
-  resetToken,
-}: ResetForgotPasswordPayload) => {
-  const payload: ResetPasswordApiPayload = {
-    email,
-    otp,
-    password: newPassword,
-    newPassword,
-    confirmPassword,
-  };
-
-  if (resetToken) {
-    payload.resetToken = resetToken;
-  }
-
-  const response = await userServiceApiClient.post(
-    endpointConfig.resetPassword,
-    payload
+export const verifyForgotPasswordOtp = async (
+  email: string,
+  otp: string
+): Promise<string> => {
+  const response = await userServiceApiClient.post<string>(
+    getOtpEndpoint("VERIFY", email),
+    undefined,
+    { params: { otp } }
   );
 
   return response.data;

@@ -23,8 +23,6 @@ const PasswordStep = ({ formDetails, updateField, errors, inputClass = "" }: Pas
 
     return (
         <div className="grid gap-5 space-y-5 sm:grid-cols-1">
-
-            {/* Password */}
             <div>
                 <Input
                     label="Password"
@@ -42,7 +40,6 @@ const PasswordStep = ({ formDetails, updateField, errors, inputClass = "" }: Pas
                 />
             </div>
 
-            {/* Confirm Password */}
             <div>
                 <Input
                     label="Confirm password"

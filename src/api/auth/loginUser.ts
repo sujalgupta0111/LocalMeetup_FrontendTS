@@ -41,8 +41,8 @@ const loginUser = async (
   if (typeof token !== "string" || !token.trim()) {
     throw new Error("Login response did not contain a token");
   }
-
   localStorage.setItem("token", token);
+  localStorage.setItem("userdata", JSON.stringify(data));
 
   return data;
 };

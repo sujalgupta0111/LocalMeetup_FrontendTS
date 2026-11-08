@@ -7,6 +7,7 @@ import { registerUser } from "@/api/auth";
 import { Button } from "@/components/mycomponents/ui";
 import { ThemeToggle } from "@/components/icons";
 import { validateStep } from "@/validations";
+import { validatePasswordInformation } from "@/validations/passwordValidator";
 import * as ConstantText from "@/constants/pagecostants";
 import AccountInfoStep from "@/components/mycomponents/auth/registration/AccountInfoStep";
 import PasswordStep from "@/components/mycomponents/auth/registration/PasswordStep";
@@ -52,6 +53,7 @@ interface RegistrationStepConfig {
 interface RegistrationLocationState {
   email?: string;
   username?: string;
+  flow?: "forgotPassword";
 }
 
 interface ApiError {
@@ -103,6 +105,13 @@ const formSteps: RegistrationStepConfig[] = [
 const formDetailsSetup = (
   locationState: RegistrationLocationState | null
 ): RegistrationForm => {
+  if (locationState?.flow === "forgotPassword") {
+    return {
+      ...initialForm,
+      email: locationState.email ?? "",
+    };
+  }
+
   const savedForm = sessionStorage.getItem("formDetails");
 
   if (savedForm) {
@@ -134,14 +143,19 @@ const inputClass =
 const RegistrationPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const locationState = location.state as RegistrationLocationState | null;
+  const isForgotPasswordFlow = locationState?.flow === "forgotPassword";
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   const [step, setStep] = useState<number>(
-    () => Number(sessionStorage.getItem("registrationStep")) || 1
+    () =>
+      isForgotPasswordFlow
+        ? 2
+        : Number(sessionStorage.getItem("registrationStep")) || 1
   );
 
   const [formDetails, setFormDetails] = useState<RegistrationForm>(() =>
-    formDetailsSetup(location.state as RegistrationLocationState | null)
+    formDetailsSetup(locationState)
   );
 
   const [errors, setErrors] = useState<RegistrationErrors>({});
@@ -149,9 +163,12 @@ const RegistrationPage = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
-    sessionStorage.setItem("registrationStep", String(step));
+    if (!isForgotPasswordFlow) {
+      sessionStorage.setItem("registrationStep", String(step));
+    }
+
     headingRef.current?.focus();
-  }, [step]);
+  }, [isForgotPasswordFlow, step]);
 
   const updateField =
     (field: RegistrationField) =>
@@ -196,6 +213,29 @@ const RegistrationPage = () => {
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
+
+    if (isForgotPasswordFlow) {
+      const passwordErrors = validateStep(2, formDetails) as RegistrationErrors;
+
+      if (
+        formDetails.password &&
+        !validatePasswordInformation(formDetails.password).isValid
+      ) {
+        passwordErrors.password =
+          "Password must include 8+ characters, uppercase, lowercase, a number, and a special character.";
+      }
+
+      setErrors(passwordErrors);
+      setSubmitError("");
+
+      if (Object.keys(passwordErrors).length === 0) {
+        setSubmitError(
+          "Password cannot be updated because the backend does not currently provide a password update API. No password was changed."
+        );
+      }
+
+      return;
+    }
 
     if (step < formSteps.length) {
       handleNext();
@@ -273,39 +313,47 @@ const RegistrationPage = () => {
         <section className="w-full max-w-xl rounded-3xl border border-border/60 bg-card/90 p-6 shadow-2xl shadow-black/5 dark:shadow-black/40 backdrop-blur-xl sm:p-9">
           <div className="mb-7 flex items-center justify-between">
             <Link
-              to={routePaths.root}
+              to={isForgotPasswordFlow ? routePaths.forgotPassword : routePaths.root}
               className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
             >
-              Back to login
+              {isForgotPasswordFlow ? "Back to Forgot Password" : "Back to login"}
             </Link>
 
-            <span className="text-sm font-medium text-muted-foreground">
-              Step {step} of {formSteps.length}
-            </span>
+            {!isForgotPasswordFlow && (
+              <span className="text-sm font-medium text-muted-foreground">
+                Step {step} of {formSteps.length}
+              </span>
+            )}
           </div>
 
           <div className="mb-8">
-            <div className="mb-4 flex gap-2">
-              {formSteps.map((s, index) => (
-                <div
-                  key={s.id}
-                  className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-                    index + 1 <= step ? "bg-primary" : "bg-muted"
-                  }`}
-                />
-              ))}
-            </div>
+            {!isForgotPasswordFlow && (
+              <div className="mb-4 flex gap-2">
+                {formSteps.map((s, index) => (
+                  <div
+                    key={s.id}
+                    className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
+                      index + 1 <= step ? "bg-primary" : "bg-muted"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
 
             <h1
               ref={headingRef}
               tabIndex={-1}
               className="text-3xl font-bold tracking-tight text-foreground"
             >
-              {currentStepConfig.heading}
+              {isForgotPasswordFlow
+                ? "Reset your password"
+                : currentStepConfig.heading}
             </h1>
 
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {currentStepConfig.subheading}
+              {isForgotPasswordFlow
+                ? `Choose a new password for ${formDetails.email}.`
+                : currentStepConfig.subheading}
             </p>
           </div>
 
@@ -323,18 +371,26 @@ const RegistrationPage = () => {
               </div>
             )}
 
-            <div className="flex justify-between gap-3 pt-2">
-              <Button
-                type="button"
-                variant="outline"
-                disabled={step === 1 || isSubmitting}
-                leftIcon={<ArrowLeft size={17} />}
-                onClick={handleBack}
-              >
-                Back
-              </Button>
+            <div
+              className={`flex gap-3 pt-2 ${
+                isForgotPasswordFlow ? "justify-end" : "justify-between"
+              }`}
+            >
+              {!isForgotPasswordFlow && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={step === 1 || isSubmitting}
+                  leftIcon={<ArrowLeft size={17} />}
+                  onClick={handleBack}
+                >
+                  Back
+                </Button>
+              )}
 
-              {step < formSteps.length ? (
+              {isForgotPasswordFlow ? (
+                <Button type="submit">Update password</Button>
+              ) : step < formSteps.length ? (
                 <Button
                   type="button"
                   rightIcon={<ArrowRight size={17} />}

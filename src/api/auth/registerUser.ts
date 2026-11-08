@@ -34,6 +34,8 @@ interface RegistrationPayload {
   };
 }
 
+
+
 const mapData = (userData: RegistrationFormData): RegistrationPayload => {
   console.log("User Data:", userData);
 
@@ -64,7 +66,18 @@ const registerUser = async (userData: RegistrationFormData) => {
     "/auth/register",
     mapData(userData)
   );
+  return response.data;
+};
 
+export const updateUser = async (
+  userData: RegistrationFormData,
+  action: string
+) => {
+  const response = await userServiceApiClient.post(
+    "/auth/register",
+    mapData(userData),
+    { params: action ? { action } : {} }
+  );
   return response.data;
 };
 
