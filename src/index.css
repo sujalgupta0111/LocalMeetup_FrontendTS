@@ -1,0 +1,222 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/inter";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   Design Tokens & CSS Variables
+   ========================================================================== */
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+
+  /* Base & Surfaces */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* Brand Accents */
+  --primary: #7c3aed;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1e293b;
+
+  /* Muted & Interactive */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f5f3ff;
+  --accent-foreground: #6d28d9;
+
+  /* States & Borders */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #f8fafc;
+  --input-border: #cbd5e1;
+  --ring: #8b5cf6;
+  --radius: 0.75rem;
+
+  /* Sidebar Tokens - Light */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #7c3aed;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f3ff;
+  --sidebar-accent-foreground: #6d28d9;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #8b5cf6;
+
+  /* Chart Tokens */
+  --chart-1: #8b5cf6;
+  --chart-2: #6366f1;
+  --chart-3: #3b82f6;
+  --chart-4: #06b6d4;
+  --chart-5: #10b981;
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Base & Surfaces - Linear/Vercel/GitHub inspired palette */
+  --background: #0f1117;
+  --foreground: #e6eaf2;
+  --card: #171a23;
+  --card-foreground: #e6eaf2;
+  --popover: #1e2230;
+  --popover-foreground: #e6eaf2;
+
+  /* Brand Accents */
+  --primary: #8b5cf6;
+  --primary-foreground: #ffffff;
+  --secondary: #1e2230;
+  --secondary-foreground: #e6eaf2;
+
+  /* Muted & Interactive */
+  --muted: #1e2230;
+  --muted-foreground: #7d8597;
+  --accent: #252b3d;
+  --accent-foreground: #c4b5fd;
+
+  /* States & Borders */
+  --destructive: #f87171;
+  --destructive-foreground: #ffffff;
+  --border: #2a3040;
+  --input: #141720;
+  --input-border: #2a3040;
+  --ring: #8b5cf6;
+
+  /* Sidebar Tokens - Dark */
+  --sidebar: #13161f;
+  --sidebar-foreground: #e6eaf2;
+  --sidebar-primary: #8b5cf6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e2230;
+  --sidebar-accent-foreground: #c4b5fd;
+  --sidebar-border: #2a3040;
+  --sidebar-ring: #8b5cf6;
+
+  /* Chart Tokens */
+  --chart-1: #a78bfa;
+  --chart-2: #818cf8;
+  --chart-3: #60a5fa;
+  --chart-4: #22d3ee;
+  --chart-5: #34d399;
+}
+
+/* ==========================================================================
+   Tailwind Theme Mapping
+   ========================================================================== */
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: 'Inter Variable', sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ==========================================================================
+   Global Base Styles
+   ========================================================================== */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    @apply font-sans;
+    min-width: 320px;
+    min-height: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    min-height: 100vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background-color: rgba(139, 92, 246, 0.25);
+    color: inherit;
+  }
+
+  /* Browser autofill handling for dark mode */
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus,
+  .dark textarea:-webkit-autofill,
+  .dark select:-webkit-autofill {
+    -webkit-text-fill-color: #e6eaf2;
+    -webkit-box-shadow: 0 0 0px 1000px #141720 inset;
+    box-shadow: 0 0 0px 1000px #141720 inset;
+    caret-color: #e6eaf2;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}

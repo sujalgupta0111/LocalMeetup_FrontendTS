@@ -1,0 +1,1 @@
+export { handleAuth } from "@/api/oauth/oauthlogin";
