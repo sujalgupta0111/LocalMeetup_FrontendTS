@@ -17,9 +17,9 @@ import {
   createLocationRequestId,
   getLocationLabel,
   reverseGeocode,
-} from "../../../../utils/location";
+} from "@/utils/location";
 
-const LocationSelector = () => {
+export const LocationSelector = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { selectedLocation, gpsDetectionStatus, gpsError } = useSelector(
     (state: RootState) => state.location
@@ -240,4 +240,3 @@ const LocationSelector = () => {
   );
 };
 
-export default LocationSelector;

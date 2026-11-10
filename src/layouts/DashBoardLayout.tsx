@@ -6,9 +6,9 @@ import {
   Sidebar,
   Footer,
   SecondaryNav,
-} from "@/components/mycomponents/layout";
+} from "@/components/mycomponents/common";
 
-const MainLayout = () => {
+const DashBoardLayout = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
 
   const handleSidebarChange = useCallback((expanded: boolean): void => {
@@ -42,4 +42,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default DashBoardLayout;

@@ -1,15 +1,16 @@
 import { Navigate, type RouteObject } from "react-router-dom";
 
-import MainLayout from "@/components/layouts/MainLayout";
+import MainLayout from "@/layouts/DashBoardLayout";
 import ProtectedRoute from "../protected/ProtectedRoute";
 import ComingSoon from "../protected/ComingSoon";
 import HomePage from "@/pages/HomePage";
 import { dashboardRouteSegments, routePaths } from "@/routes/routepaths/routePaths";
+import { VartalapPage } from "@/pages/VartalapPage";
 
 const dashboardRoutes: RouteObject[] = [
   {
     path: "/dashboard",
-    element: <ProtectedRoute />,
+    // element: <ProtectedRoute />,
     children: [
       {
         element: <MainLayout />,
@@ -24,7 +25,7 @@ const dashboardRoutes: RouteObject[] = [
           },
           {
             path: dashboardRouteSegments.vartalap,
-            element: <ComingSoon title="Vartalap" description="Conversations coming soon." />,
+            element: <VartalapPage />,
           },
           {
             path: dashboardRouteSegments.viber,

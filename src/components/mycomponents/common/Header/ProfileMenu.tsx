@@ -62,9 +62,7 @@ export const ProfileMenu = () => {
   }, [cancelHoverClose]);
 
   useEffect(
-    () => () => {
-      cancelHoverClose();
-    },
+    () => () => { cancelHoverClose(); },
     [cancelHoverClose]
   );
 

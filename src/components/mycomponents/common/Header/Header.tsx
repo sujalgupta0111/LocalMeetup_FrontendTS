@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { Bell,    Menu,  ShoppingCart, X,  } from "lucide-react";
 import { Button} from "@/components/ui";
 import {ThemeToggle,BrandLogo} from "@/components/icons";
-import { LocationSelector } from "@/components/mycomponents/ui/LocationSelector";
+import { LocationSelector } from "@/components/mycomponents/common/Header/LocationSelector";
 import type {  RootState } from "@/store/store";
-import {ProfileMenu} from "@/components/mycomponents/modal/ProfileMenu";
+import {ProfileMenu} from "@/components/mycomponents/common/Header/ProfileMenu";
 type HeaderProps = {
   sidebarExpanded: boolean;
   onSidebarToggle: () => void;

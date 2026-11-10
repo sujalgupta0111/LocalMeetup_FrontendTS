@@ -8,6 +8,7 @@ const tabs = [
   { label: "Statistics", to: routePaths.dashboardShop },
   { label: "Activity", to: routePaths.dashboardVartalap },
   { label: "Settings", to: routePaths.dashboardSettings },
+  { label: "2", to: routePaths.dashboardSettings },
 ];
 
 export default function SecondaryNav() {

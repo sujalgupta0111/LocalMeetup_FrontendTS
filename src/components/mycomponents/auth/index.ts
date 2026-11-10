@@ -1,4 +1,4 @@
-export { default as ForgotPassword } from "./ForgotPassword/ForgotPassword";
+export { default as ForgotPassword } from "../modal/ForgotPassword";
 export { OAuthButton, OAuthOptions } from "./outh";
 export {
   default as AccountInfoStep,

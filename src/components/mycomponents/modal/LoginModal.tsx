@@ -7,6 +7,9 @@ import { OAuthOptions } from "@/components/mycomponents/auth/outh";
 import { emailValidator } from "@/validations";
 import { loginUser } from "@/api/auth";
 import { routePaths } from "@/routes/routepaths/routePaths";
+import ForgotPassword from "./ForgotPassword";
+import PopUpModal from "./PopUpModal";
+import { AnimatedBorder } from "@/components/mycomponents/ui";
 
 type RedirectTarget = {
   pathname: string;
@@ -42,7 +45,7 @@ const getRedirectTarget = (state: unknown): RedirectTarget | undefined => {
 const TRANSITION_TIMING = 2000;
 const REPEAT_DELAY = 2000;
 
-const LoginModal = () => {
+export const LoginModal = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -51,10 +54,9 @@ const LoginModal = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
 
-
-  
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -111,8 +113,9 @@ const LoginModal = () => {
   };
 
   return (
-    <section
-      className="
+    <>
+      <section
+        className="
         w-full max-w-md
         rounded-3xl
         border border-border/60
@@ -122,7 +125,7 @@ const LoginModal = () => {
         backdrop-blur-xl
         sm:p-9
       "
-    >
+      >
       {/* Brand Logo */}
 
       <BrandLogo loginPageBrandLogo={loginPageBrandLogoText} />
@@ -208,7 +211,7 @@ const LoginModal = () => {
               variant="ghost"
               size="sm"
               disabled={loading}
-              onClick={() => navigate(routePaths.forgotPassword)}
+              onClick={() => setIsForgotPasswordOpen(true)}
               className="
                 h-auto min-h-0
                 p-0
@@ -357,8 +360,12 @@ const LoginModal = () => {
           {createAccountButtonText}
         </Link>
       </p>
-    </section>
+      </section>
+      <PopUpModal isOpen={isForgotPasswordOpen} onClose={() => setIsForgotPasswordOpen(false)}>
+       <AnimatedBorder color="green" borderRadius="rounded-3x3">
+        <ForgotPassword isModal />
+        </AnimatedBorder>
+      </PopUpModal>
+    </>
   );
 };
-
-export default LoginModal;

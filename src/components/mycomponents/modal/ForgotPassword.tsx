@@ -1,5 +1,4 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
 import { AlertCircle, CheckCircle2, ShieldCheck } from "lucide-react";
 import { BrandLogo, ThemeToggle } from "@/components/icons";
 import { AnimatedBorder, Button, Input } from "@/components/mycomponents/ui";
@@ -13,10 +12,9 @@ import {
   sendForgotPasswordOtp,
   verifyForgotPasswordOtp,
 } from "@/api/auth";
-import ChangePassword from "./ChangePassword";
+import ChangePassword from "../auth/ForgotPassword/ChangePassword";
 import { emailValidator } from "@/validations";
 import { loginPageBrandLogoText } from "@/constants/pagecostants";
-import { routePaths } from "@/routes/routepaths/routePaths";
 
 const OTP_DURATION_SECONDS = 600;
 
@@ -33,7 +31,9 @@ const isOtpVerificationFailure = (message: string) =>
     message
   );
 
-const ForgotPassword = () => {
+type ForgotPasswordProps = {isModal?: boolean;};
+
+const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
   const [currentStep, setCurrentStep] = useState<"email" | "otp" | "password">(
     "email"
   );
@@ -198,12 +198,6 @@ const ForgotPassword = () => {
       >
         Send OTP
       </Button>
-
-      <div className="text-center text-sm font-medium text-muted-foreground">
-        <Link to={routePaths.login} className="text-primary hover:text-primary/80 transition-colors">
-          Back to Login
-        </Link>
-      </div>
     </form>
   );
 
@@ -265,83 +259,94 @@ const ForgotPassword = () => {
           <span>{`Resend OTP in ${formatCountdown(timeLeft)}`}</span>
         )}
       </div>
-
-      <div className="text-center text-sm font-medium text-muted-foreground">
-        <Link to={routePaths.login} className="text-primary hover:text-primary/80 transition-colors">
-          Back to Login
-        </Link>
-      </div>
     </div>
   );
 
+  const recoveryForm = (
+    <section
+      className={
+        isModal
+          ? "w-full p-6 sm:p-9"
+          : "w-full rounded-3xl border border-border/60 bg-card/90 p-6 shadow-2xl shadow-black/5 backdrop-blur-xl dark:shadow-black/40 sm:p-9"
+      }
+    >
+      <BrandLogo loginPageBrandLogo={loginPageBrandLogoText} />
+
+      <div className="mb-8 text-center">
+        <div className="mb-3 flex justify-center text-primary">
+          <ShieldCheck size={24} />
+        </div>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          {currentStep === "email"
+            ? "Forgot Password"
+            : currentStep === "otp"
+              ? "Verify OTP"
+              : "Change Password"}
+        </h1>
+      </div>
+
+      {(error || successMessage) && (
+        <div className="mb-5 space-y-3">
+          {error && (
+            <div
+              role="alert"
+              aria-live="polite"
+              className="flex items-center gap-3 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
+            >
+              <AlertCircle size={16} className="shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {successMessage && !error && (
+            <div
+              role="status"
+              aria-live="polite"
+              className="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400"
+            >
+              <CheckCircle2 size={16} className="shrink-0" />
+              <span>{successMessage}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {currentStep === "email" && renderEmailStep()}
+      {currentStep === "otp" && renderOtpStep()}
+      {currentStep === "password" && <ChangePassword email={email.trim()} />}
+    </section>
+  );
+
+  if (isModal) {
+    return recoveryForm;
+  }
+
   return (
+    <>
+    
     <main className="relative min-h-screen overflow-hidden bg-background px-4 py-8 sm:px-6">
+      <AnimatedBorder color="purple" borderRadius="rounded-3xl">
       <div className="absolute right-4 top-4 z-20">
         <ThemeToggle />
       </div>
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-violet-400/20 dark:bg-violet-600/15 blur-3xl" />
-        <div className="absolute -bottom-40 -right-32 h-[28rem] w-[28rem] rounded-full bg-cyan-400/20 dark:bg-cyan-600/15 blur-3xl" />
-        <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-fuchsia-300/15 dark:bg-fuchsia-600/10 blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] [background-image:linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] [background-size:40px_40px]" />
+        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/15" />
+        <div className="absolute -bottom-40 -right-32 h-[28rem] w-[28rem] rounded-full bg-cyan-400/20 blur-3xl dark:bg-cyan-600/15" />
+        <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-fuchsia-300/15 blur-3xl dark:bg-fuchsia-600/10" />
+        <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] [background-size:40px_40px] dark:opacity-[0.04]" />
       </div>
 
       <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center">
         <div className="w-full max-w-md">
-          <AnimatedBorder color="purple" borderRadius="rounded-3xl">
-            <section className="w-full rounded-3xl border border-border/60 bg-card/90 p-6 shadow-2xl shadow-black/5 dark:shadow-black/40 backdrop-blur-xl sm:p-9">
-              <BrandLogo loginPageBrandLogo={loginPageBrandLogoText} />
-
-              <div className="mb-8 text-center">
-                <div className="mb-3 flex justify-center text-primary">
-                  <ShieldCheck size={24} />
-                </div>
-                <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                  {currentStep === "email"
-                    ? "Forgot Password"
-                    : currentStep === "otp"
-                      ? "Verify OTP"
-                      : "Change Password"}
-                </h1>
-              </div>
-
-              {(error || successMessage) && (
-                <div className="mb-5 space-y-3">
-                  {error && (
-                    <div
-                      role="alert"
-                      aria-live="polite"
-                      className="flex items-center gap-3 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
-                    >
-                      <AlertCircle size={16} className="shrink-0" />
-                      <span>{error}</span>
-                    </div>
-                  )}
-
-                  {successMessage && !error && (
-                    <div
-                      role="status"
-                      aria-live="polite"
-                      className="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400"
-                    >
-                      <CheckCircle2 size={16} className="shrink-0" />
-                      <span>{successMessage}</span>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {currentStep === "email" && renderEmailStep()}
-              {currentStep === "otp" && renderOtpStep()}
-              {currentStep === "password" && (
-                <ChangePassword email={email.trim()} />
-              )}
-            </section>
-          </AnimatedBorder>
+          
+            {recoveryForm}
+         
         </div>
       </div>
+       </AnimatedBorder>
     </main>
+    </>
   );
 };
 

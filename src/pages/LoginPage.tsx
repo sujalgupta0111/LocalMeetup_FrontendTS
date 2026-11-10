@@ -1,7 +1,8 @@
 
-import { LoginModal } from "@/components/mycomponents/modal";
+import { LoginModal } from "@/components/mycomponents/modal/LoginModal";
 import { AnimatedBorder } from "@/components/mycomponents/ui";
 import ThemeToggle from "@/components/icons/ThemeToggle";
+import {Footer} from "@/components/mycomponents/common";
 
 export default function LoginPage() {
   return (
@@ -80,9 +81,7 @@ export default function LoginPage() {
           </AnimatedBorder>
 
           {/* ================= FOOTER ================= */}
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            © 2026 Your Application. All rights reserved.
-          </p>
+      <Footer />
         </div>
       </div>
     </main>

@@ -3,7 +3,7 @@ import type { RouteObject } from "react-router-dom";
 import RegistrationPage from "@/pages/RegistrationPage";
 import LoginPage from "@/pages/LoginPage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
-import MainLayout from "@/components/layouts/MainLayout";
+import MainLayout from "@/layouts/DashBoardLayout";
 import { routePaths } from "@/routes/routepaths/routePaths";
 
 const loginRoutes: RouteObject[] = [

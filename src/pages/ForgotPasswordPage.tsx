@@ -1,5 +1,5 @@
 
-import ForgotPassword from "@/components/mycomponents/auth/ForgotPassword/ForgotPassword";
+import ForgotPassword from "@/components/mycomponents/modal/ForgotPassword";
 
 export default function ForgotPasswordPage() {
   return <ForgotPassword />;
