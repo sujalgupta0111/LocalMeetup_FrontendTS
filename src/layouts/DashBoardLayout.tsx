@@ -1,4 +1,3 @@
-
 import { useCallback, useState } from "react";
 import { Outlet } from "react-router-dom";
 import {
@@ -17,11 +16,13 @@ const DashBoardLayout = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      {/* 1. Header ke baad koi margin nahi hai */}
       <Header
         sidebarExpanded={sidebarExpanded}
         onSidebarToggle={() => handleSidebarChange(!sidebarExpanded)}
       />
 
+      {/* 2. Middle layout area */}
       <div className="flex min-h-0 flex-1">
         <Sidebar
           expanded={sidebarExpanded}
@@ -29,14 +30,16 @@ const DashBoardLayout = () => {
         />
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <SecondaryNav />
+          {/* <SecondaryNav /> */}
 
-          <main className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+          {/* Saari padding (horizontal & vertical) aur mx-auto hata di gayi hai */}
+          <main className="flex h-full w-full flex-1 flex-col p-0">
             <Outlet />
           </main>
         </div>
       </div>
 
+      {/* 3. Footer ke saath koi gap nahi */}
       <Footer />
     </div>
   );
