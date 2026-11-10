@@ -5,7 +5,7 @@ import { ThemeToggle, BrandLogo } from "@/components/icons";
 import { LocationSelector } from "@/components/mycomponents/common/Header/LocationSelector";
 import type { RootState } from "@/store/store";
 import { ProfileMenu } from "@/components/mycomponents/common/Header/ProfileMenu";
-
+import { UserNameBatch } from "@/components/mycomponents/common/Header/UserNameBatch";
 type HeaderProps = {
   sidebarExpanded: boolean;
   onSidebarToggle: () => void;
@@ -46,6 +46,11 @@ export default function Header({ sidebarExpanded, onSidebarToggle }: HeaderProps
           <BrandLogo size={36} borderRadius="50%" showMargin={false} />
 
           <div
+            className="hidden h-5 w-px shrink-0 bg-border/60 sm:block"
+            aria-hidden="true"
+          />
+          <UserNameBatch />
+              <div
             className="hidden h-5 w-px shrink-0 bg-border/60 sm:block"
             aria-hidden="true"
           />
