@@ -1,20 +1,8 @@
-import type { ChangeEventHandler } from "react";
+
 import { Input } from "@/components/mycomponents/ui";
+import type{ AccountInfoStepProps } from "@/types/types";
 
-type AccountInfoFields = {
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    phone: string;
-};
 
-type AccountInfoStepProps = {
-    formDetails: AccountInfoFields;
-    updateField: (field: keyof AccountInfoFields) => ChangeEventHandler<HTMLInputElement>;
-    errors: Partial<Record<keyof AccountInfoFields, string>>;
-    inputClass?: string;
-};
 
 const AccountInfoStep = ({ formDetails, updateField, errors, inputClass = "" }: AccountInfoStepProps) => {
     return (

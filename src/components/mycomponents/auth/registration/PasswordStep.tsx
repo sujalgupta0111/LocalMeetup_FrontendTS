@@ -1,19 +1,9 @@
-import type { ChangeEventHandler } from "react";
 import { Input } from "@/components/mycomponents/ui";
 import PasswordStrength from "./PasswordStrength";
 import { passwordMatcher } from "@/validations/passwordValidator";
+import type { PasswordStepProps } from "@/types/types";
 
-type PasswordFields = {
-    password: string;
-    confirmPassword: string;
-};
 
-type PasswordStepProps = {
-    formDetails: PasswordFields;
-    updateField: (field: keyof PasswordFields) => ChangeEventHandler<HTMLInputElement>;
-    errors: Partial<Record<keyof PasswordFields, string>>;
-    inputClass?: string;
-};
 
 const PasswordStep = ({ formDetails, updateField, errors, inputClass = "" }: PasswordStepProps) => {
     const isMatch = passwordMatcher(

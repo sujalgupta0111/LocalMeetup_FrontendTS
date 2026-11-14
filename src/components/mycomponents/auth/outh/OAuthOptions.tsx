@@ -1,5 +1,5 @@
 import OAuthButton from "@/components/mycomponents/auth/outh/OAuthButton";
-import type { OAuthAuthResponse } from "@/api/oauth/oauthlogin";
+import type {OAuthAuthResponse} from "@/types/interface";
 import {
   DiscordIcon,
   FacebookIcon,
@@ -13,8 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { loginSuccess } from "@/store/slices/authSlice";
 import type { AppDispatch } from "@/store/store";
 import { routePaths } from "@/routes/routepaths/routePaths";
+import type { OAuthProvider } from "@/types/types";
 
-type Provider = "google" | "github" | "facebook" | "discord";
+type Provider = OAuthProvider;
 
 const providerConfig: Record<Provider, { provider: Provider; label: string; icon: ReactNode }> = {
   google: {

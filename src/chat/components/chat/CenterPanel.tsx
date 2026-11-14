@@ -253,14 +253,14 @@ export const CenterPanel: React.FC<CenterPanelProps> = ({ sendTyping, sendReceip
           <MessageSquare className="w-10 h-10" />
         </div>
         <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-          ChatSphere
+          Vartalap
         </h2>
         <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mb-6 leading-relaxed">
           Send real-time messages, share files, react with emojis, and stay connected with your team and friends.
         </p>
         <div className="flex items-center space-x-2 text-xs text-slate-400 bg-white dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800 shadow-xs">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>End-to-End WebSocket Real-Time Sync</span>
+          <span>End-to-End Encrypted Real-Time </span>
         </div>
       </div>
     );

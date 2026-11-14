@@ -147,7 +147,7 @@ export const LocationSelector = () => {
             <MapPin size={14} aria-hidden="true" />
           )}
         </span>
-        <span className="max-w-[150px] truncate text-xs font-semibold text-foreground sm:max-w-[180px]">
+        <span className="max-w-37.5 truncate text-xs font-semibold text-foreground sm:max-w-45">
           {gpsDetectionStatus === "loading"
             ? "Finding location…"
             : frontLabel || "Choose location"}

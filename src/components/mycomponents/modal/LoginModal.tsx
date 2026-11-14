@@ -295,7 +295,7 @@ export const LoginModal = () => {
             group relative
             w-full overflow-hidden
             rounded-xl
-            bg-gradient-to-r
+            bg-linear-to-r
             from-violet-600
             via-indigo-600
             to-indigo-600

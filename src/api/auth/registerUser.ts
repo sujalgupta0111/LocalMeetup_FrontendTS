@@ -1,39 +1,5 @@
 import { userServiceApiClient } from "@/api/axios";
-
-interface RegistrationFormData {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  password: string;
-  phone?: string | null;
-  houseNo?: string | null;
-  street?: string | null;
-  city?: string | null;
-  state?: string | null;
-  country?: string | null;
-  pincode?: string | number | null;
-}
-
-interface RegistrationPayload {
-  firstName: string;
-  lastName: string;
-  credentials: {
-    username: string;
-    email: string;
-    password: string;
-    phone: string;
-  };
-  address: {
-    houseNo: string;
-    street: string;
-    city: string;
-    state: string;
-    country: string;
-    pincode: string | number;
-  };
-}
-
+import type { RegistrationFormData, RegistrationPayload } from "@/types/interface";
 
 
 const mapData = (userData: RegistrationFormData): RegistrationPayload => {
@@ -62,22 +28,12 @@ const mapData = (userData: RegistrationFormData): RegistrationPayload => {
 };
 
 const registerUser = async (userData: RegistrationFormData) => {
-  const response = await userServiceApiClient.post(
-    "/auth/register",
-    mapData(userData)
-  );
+  const response = await userServiceApiClient.post( "/auth/register", mapData(userData));
   return response.data;
 };
 
-export const updateUser = async (
-  userData: RegistrationFormData,
-  action: string
-) => {
-  const response = await userServiceApiClient.post(
-    "/auth/register",
-    mapData(userData),
-    { params: action ? { action } : {} }
-  );
+export const updateUser = async ( userData: RegistrationFormData, action: string) => {
+  const response = await userServiceApiClient.post("/auth/register",mapData(userData),{ params: action ? { action } : {} });
   return response.data;
 };
 
