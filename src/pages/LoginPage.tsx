@@ -34,8 +34,8 @@ export default function LoginPage() {
             absolute
             -bottom-40
             -right-32
-            h-[28rem]
-            w-[28rem]
+            h-112
+            w-md
             rounded-full
             bg-cyan-400/20
             dark:bg-cyan-600/15
@@ -66,8 +66,8 @@ export default function LoginPage() {
             inset-0
             opacity-[0.03]
             dark:opacity-[0.04]
-            [background-image:linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)]
-            [background-size:40px_40px]
+            bg-[linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)]
+            [bg-size:40px_40px]
           "
         />
       </div>

@@ -38,7 +38,7 @@ const PopUpModal = ({ isOpen, onClose, children, title }: PopUpModalProps) => {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/55 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-100 flex items-center justify-center overflow-y-auto bg-black/55 p-4 backdrop-blur-sm"
       onClick={(event) => {
         if (event.target === event.currentTarget) {
           onClose();

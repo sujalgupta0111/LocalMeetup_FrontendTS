@@ -1,32 +1,12 @@
 import { userServiceApiClient } from "@/api/axios";
 import { validateJwt } from "@/validations";
+import type { OAuthAuthResponse } from "@/types/interface";
+import type { OAuthPopupMessage } from "@/types/types";
+import type { OAuthProvider } from "@/types/types";
 
-export type OAuthProvider = "google" | "github" | "facebook" | "discord";
 
-export interface OAuthAuthResponse {
-  id?: string;
-  token: string;
-  tokenType?: string;
-  name?: string;
-  username?: string;
-  email?: string;
-  roles?: string[];
-}
 
-type OAuthPopupMessage =
-  | {
-      type: "oauth:result";
-      status: "success";
-      provider: OAuthProvider;
-      code: string;
-      message?: string;
-    }
-  | {
-      type: "oauth:result";
-      status: "error";
-      provider?: OAuthProvider | "unknown";
-      message?: string;
-    };
+
 
 const POPUP_TIMEOUT_MS = 5 * 60 * 1000;
 
@@ -151,9 +131,7 @@ const exchangeCode = async (
   return authResponse;
 };
 
-export const handleAuth = (
-  provider: OAuthProvider
-): Promise<OAuthAuthResponse> => {
+export const handleAuth = (provider: OAuthProvider): Promise<OAuthAuthResponse> => {
   const apiBaseUrl = getApiBaseUrl();
   const servicePath = apiBaseUrl.pathname.replace(/\/+$/, "");
   const authorizationUrl = new URL(

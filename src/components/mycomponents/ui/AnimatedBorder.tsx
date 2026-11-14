@@ -38,7 +38,7 @@ const AnimatedBorder = ({
   const selectedColor = colorStyles[color] || colorStyles.purple;
 
   return (
-    <div className={`relative isolate ${borderRadius} p-[1px] ${className}`}>
+    <div className={`relative isolate ${borderRadius} p-px ${className}`}>
       {/* Animated gradient border */}
       <div
         className={`
@@ -53,7 +53,7 @@ const AnimatedBorder = ({
         <div
           className={`
             absolute
-            -inset-[100%]
+            -inset-full
             ${selectedColor.gradient}
             animate-[spin_4s_linear_infinite]
           `}

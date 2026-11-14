@@ -1,18 +1,9 @@
+import type { LoginResponse } from "@/types/interface";
+
 const API_BASE_URL = "http://localhost:7070/users";
 
-interface LoginResponse {
-  message?: string;
-  token?: string;
-  data?: {
-    token?: string;
-  };
-  [key: string]: unknown;
-}
-
-const loginUser = async (
-  username: string,
-  password: string
-): Promise<LoginResponse> => {
+const loginUser = async (username: string,password: string): Promise<LoginResponse> => 
+  {
   const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: "POST",
     headers: {
@@ -42,11 +33,7 @@ const loginUser = async (
     throw new Error("Login response did not contain a token");
   }
   localStorage.setItem("token", token);
-  console.log("Token stored in localStorage:", token);
-  console.log("User data stored in localStorage:", data);
-  console.log("User data stored in localStorage:", JSON.stringify(data));
   localStorage.setItem("userdata", JSON.stringify(data));
-
   return data;
 };
 

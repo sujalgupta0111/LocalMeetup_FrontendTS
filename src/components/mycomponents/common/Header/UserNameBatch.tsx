@@ -1,38 +1,7 @@
 import React, { useEffect, useState } from "react";
-
+import type { StoredUserData } from "@/types/interface";
 // LocalStorage me save hone wale data ka interface
-interface StoredUserData {
-  token?: string;
-  data?: {
-    token?: string;
-    firstName?: string;
-    lastName?: string;
-    first_name?: string;
-    last_name?: string;
-    name?: string;
-    user?: {
-      firstName?: string;
-      lastName?: string;
-      first_name?: string;
-      last_name?: string;
-      name?: string;
-    };
-    [key: string]: unknown;
-  };
-  firstName?: string;
-  lastName?: string;
-  first_name?: string;
-  last_name?: string;
-  name?: string;
-  user?: {
-    firstName?: string;
-    lastName?: string;
-    first_name?: string;
-    last_name?: string;
-    name?: string;
-  };
-  [key: string]: unknown;
-}
+
 
 export const UserNameBatch: React.FC = () => {
   const [displayName, setDisplayName] = useState<string>("Guest");

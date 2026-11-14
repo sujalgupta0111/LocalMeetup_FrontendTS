@@ -7,7 +7,7 @@ import {
   type Ref,
 } from "react";
 import { Eye, EyeOff, type LucideIcon } from "lucide-react";
-import Button from "./Button";
+import Button from '@/components/mycomponents/ui/Button';
 
 type InputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,

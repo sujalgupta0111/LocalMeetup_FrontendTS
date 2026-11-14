@@ -1,28 +1,13 @@
 import { Button } from "@/components/mycomponents/ui";
 import {
   handleAuth,
-  type OAuthAuthResponse,
 } from "@/api/oauth/oauthlogin";
-import type { ReactNode } from "react";
+
+
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
+import type { OAuthButtonProps } from "@/types/types";
 
-type OAuthProvider = "google" | "github" | "facebook" | "discord";
-
-type OAuthProviderConfig = {
-  provider: OAuthProvider;
-  label: string;
-  icon: ReactNode;
-  disabled?: boolean;
-};
-
-type OAuthButtonProps = {
-  outhconfig: OAuthProviderConfig;
-  isLableVisible?: boolean;
-  disabled?: boolean;
-  onAuthenticated: (response: OAuthAuthResponse) => void;
-  onError: (message: string) => void;
-};
 
 const OAuthButton = ({
   outhconfig,

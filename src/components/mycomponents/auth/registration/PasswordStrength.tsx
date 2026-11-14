@@ -1,21 +1,5 @@
 import { passwordMatcher, validatePasswordInformation } from "@/validations/passwordValidator";
-
-type PasswordChecks = {
-    minLength: boolean;
-    uppercase: boolean;
-    lowercase: boolean;
-    number: boolean;
-    specialChar: boolean;
-};
-
-type PasswordCriteriaListProps = {
-    checks: PasswordChecks;
-};
-
-type PasswordStrengthProps = {
-    password?: string;
-    confirmPassword?: string;
-};
+import type { PasswordStrengthProps, PasswordCriteriaListProps } from "@/types/types";
 
 // Sub-component for Checklist Validation
 const PasswordCriteriaList = ({ checks }: PasswordCriteriaListProps) => {

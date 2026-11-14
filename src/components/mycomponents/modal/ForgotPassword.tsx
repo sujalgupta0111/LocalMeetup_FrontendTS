@@ -194,7 +194,7 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
         type="submit"
         loading={isSendingOtp}
         loadingText="Sending..."
-        className="w-full rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-600 py-3 font-semibold text-white shadow-lg shadow-violet-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
+        className="w-full rounded-xl bg-linear-to-r from-violet-600 via-indigo-600 to-indigo-600 py-3 font-semibold text-white shadow-lg shadow-violet-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
       >
         Send OTP
       </Button>
@@ -240,7 +240,7 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
         loading={isVerifyingOtp}
         loadingText="Verifying..."
         disabled={otp.length !== 6 || isVerifyingOtp}
-        className="w-full rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-600 py-3 font-semibold text-white shadow-lg shadow-violet-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-xl bg-linear-to-r from-violet-600 via-indigo-600 to-indigo-600 py-3 font-semibold text-white shadow-lg shadow-violet-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
       >
         Verify OTP
       </Button>
@@ -332,9 +332,9 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/15" />
-        <div className="absolute -bottom-40 -right-32 h-[28rem] w-[28rem] rounded-full bg-cyan-400/20 blur-3xl dark:bg-cyan-600/15" />
+        <div className="absolute -bottom-40 -right-32 h-112 w-md rounded-full bg-cyan-400/20 blur-3xl dark:bg-cyan-600/15" />
         <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-fuchsia-300/15 blur-3xl dark:bg-fuchsia-600/10" />
-        <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] [background-size:40px_40px] dark:opacity-[0.04]" />
+        <div className="absolute inset-0 opacity-[0.03] [bg[linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] [bg-size:40px_40px] dark:opacity-[0.04]" />
       </div>
 
       <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center">

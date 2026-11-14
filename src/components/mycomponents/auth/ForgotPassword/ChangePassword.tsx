@@ -150,7 +150,7 @@ const ChangePassword = ({ email }: ChangePasswordProps) => {
         loading={isUpdating}
         loadingText="Updating..."
         disabled={isUpdating}
-        className="w-full rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-600 py-3 font-semibold text-white shadow-lg shadow-violet-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0"
+        className="w-full rounded-xl bg-linear-to-r from-violet-600 via-indigo-600 to-indigo-600 py-3 font-semibold text-white shadow-lg shadow-violet-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 active:translate-y-0"
       >
         Update Password
       </Button>

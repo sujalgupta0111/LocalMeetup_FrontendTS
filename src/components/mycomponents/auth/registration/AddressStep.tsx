@@ -1,22 +1,9 @@
-import type { ChangeEventHandler } from "react";
+
 import { Input } from "@/components/mycomponents/ui";
 import { MapPin } from "lucide-react";
+import type{ AddressStepProps } from "@/types/types";
 
-type AddressFields = {
-    houseNo: string;
-    country: string;
-    state: string;
-    city: string;
-    street: string;
-    pincode: string;
-};
 
-type AddressStepProps = {
-    formDetails: AddressFields;
-    updateField: (field: keyof AddressFields) => ChangeEventHandler<HTMLInputElement>;
-    errors: Partial<Record<keyof AddressFields, string>>;
-    inputClass?: string;
-};
 
 const AddressStep = ({ formDetails, updateField, errors, inputClass = "" }: AddressStepProps) => {
     return (

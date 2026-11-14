@@ -1,13 +1,6 @@
 
 import { loginPageBrandLogoText } from "@/constants/pagecostants";
-
-interface BrandLogoProps {
-  loginPageBrandLogo?: string;
-  size?: number;
-  borderRadius?: string;
-  fontSize?: number;
-  showMargin?: boolean;
-}
+import type { BrandLogoProps } from "@/types/interface";
 
 export const BrandLogo = ({
   loginPageBrandLogo = loginPageBrandLogoText,
@@ -30,7 +23,7 @@ export const BrandLogo = ({
         className="
           flex shrink-0
           items-center justify-center
-          bg-gradient-to-br
+          bg-linear-to-br
           from-violet-600 via-indigo-600 to-cyan-500
           font-bold leading-none text-white
           shadow-xl shadow-violet-500/25
