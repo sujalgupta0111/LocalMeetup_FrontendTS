@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { AlertCircle, CheckCircle2, ShieldCheck } from "lucide-react";
+import { AlertCircle, ShieldCheck } from "lucide-react";
 import { BrandLogo, ThemeToggle } from "@/components/icons";
 import { AnimatedBorder, Button, Input } from "@/components/mycomponents/ui";
 import {
@@ -15,6 +15,7 @@ import {
 import ChangePassword from "../auth/ForgotPassword/ChangePassword";
 import { emailValidator } from "@/validations";
 import { loginPageBrandLogoText } from "@/constants/pagecostants";
+import { notification } from "@/utils/notificationUtils";
 
 const OTP_DURATION_SECONDS = 600;
 
@@ -40,7 +41,6 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [timeLeft, setTimeLeft] = useState(OTP_DURATION_SECONDS);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
@@ -83,7 +83,6 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
     }
 
     setError("");
-    setSuccessMessage("");
     setIsSendingOtp(true);
 
     try {
@@ -92,9 +91,9 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
       setCurrentStep("otp");
       setOtp("");
       resetTimer();
-      setSuccessMessage(responseMessage || "A verification code has been sent.");
+      notification.success(responseMessage || "A verification code has been sent.");
     } catch (requestError) {
-      setError(
+      notification.error(
         getForgotPasswordErrorMessage(
           requestError,
           "Something went wrong. Please try again."
@@ -123,20 +122,19 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
       );
 
       if (isOtpVerificationFailure(responseMessage)) {
-        setError(responseMessage || "Invalid OTP. Please try again.");
+        notification.error(responseMessage || "Invalid OTP. Please try again.");
         return;
       }
 
       setCurrentStep("password");
       setOtp("");
       setError("");
-      setSuccessMessage("");
     } catch (verifyError) {
       const message = getForgotPasswordErrorMessage(
         verifyError,
         "Invalid OTP. Please try again."
       );
-      setError(
+      notification.error(
         /\bexpired\b/i.test(message)
           ? "OTP has expired. Please request a new OTP."
           : message
@@ -158,9 +156,9 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
       const responseMessage = await sendForgotPasswordOtp(email.trim());
       setOtp("");
       resetTimer();
-      setSuccessMessage(responseMessage || "A new verification code has been sent.");
+      notification.success(responseMessage || "A new verification code has been sent.");
     } catch (resendError) {
-      setError(
+      notification.error(
         getForgotPasswordErrorMessage(
           resendError,
           "Something went wrong. Please try again."
@@ -285,29 +283,14 @@ const ForgotPassword = ({ isModal = false }: ForgotPasswordProps) => {
         </h1>
       </div>
 
-      {(error || successMessage) && (
-        <div className="mb-5 space-y-3">
-          {error && (
-            <div
-              role="alert"
-              aria-live="polite"
-              className="flex items-center gap-3 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
-            >
-              <AlertCircle size={16} className="shrink-0" />
-              <span>{error}</span>
-            </div>
-          )}
-
-          {successMessage && !error && (
-            <div
-              role="status"
-              aria-live="polite"
-              className="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400"
-            >
-              <CheckCircle2 size={16} className="shrink-0" />
-              <span>{successMessage}</span>
-            </div>
-          )}
+      {error && (
+        <div
+          role="alert"
+          aria-live="polite"
+          className="mb-5 flex items-center gap-3 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
+        >
+          <AlertCircle size={16} className="shrink-0" />
+          <span>{error}</span>
         </div>
       )}
 

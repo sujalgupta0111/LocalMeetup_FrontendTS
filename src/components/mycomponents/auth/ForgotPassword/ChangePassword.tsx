@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { updateUser, getForgotPasswordErrorMessage } from "@/api/auth";
 import { Button, Input } from "@/components/mycomponents/ui";
 import PasswordStrength from "@/components/mycomponents/auth/registration/PasswordStrength";
@@ -9,6 +9,7 @@ import {
 } from "@/validations/passwordValidator";
 import { Link, useNavigate } from "react-router-dom";
 import { routePaths } from "@/routes/routepaths/routePaths";
+import { notification } from "@/utils/notificationUtils";
 
 type ChangePasswordProps = {
   email: string;
@@ -67,10 +68,11 @@ const ChangePassword = ({ email }: ChangePasswordProps) => {
   pincode: null
 }, "UPDATE");
       setSuccessMessage("Password updated successfully. You can now log in.");
+notification.success("Password updated successfully. You can now log in.");
       setPassword("");
       setConfirmPassword("");
     } catch (requestError) {
-      setError(
+notification.error(
         getForgotPasswordErrorMessage(
           requestError,
           "Unable to update your password. Please try again."
@@ -96,17 +98,6 @@ const ChangePassword = ({ email }: ChangePasswordProps) => {
         >
           <AlertCircle size={16} className="shrink-0" />
           <span>{error}</span>
-        </div>
-      )}
-
-      {successMessage && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400"
-        >
-          <CheckCircle2 size={16} className="shrink-0" />
-          <span>{successMessage}</span>
         </div>
       )}
 

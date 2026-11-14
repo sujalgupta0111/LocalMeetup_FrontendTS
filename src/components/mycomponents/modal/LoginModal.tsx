@@ -10,6 +10,7 @@ import { routePaths } from "@/routes/routepaths/routePaths";
 import ForgotPassword from "./ForgotPassword";
 import PopUpModal from "./PopUpModal";
 import { AnimatedBorder } from "@/components/mycomponents/ui";
+import { notification } from "@/utils/notificationUtils";
 
 type RedirectTarget = {
   pathname: string;
@@ -53,7 +54,6 @@ export const LoginModal = () => {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
 
@@ -64,7 +64,6 @@ export const LoginModal = () => {
 
     // Reset previous messages
     setError("");
-    setSuccess("");
 
     const trimmedEmail = email.trim();
 
@@ -90,14 +89,14 @@ export const LoginModal = () => {
       // API Call
       await loginUser(trimmedEmail, password);
 
-      setSuccess("Login successful!");
+      notification.success("Login successful!");
       navigate(
         getRedirectTarget(location.state) ?? routePaths.dashboard,
         { replace: true }
       );
 
     } catch (error: unknown) {
-      setError(
+      notification.error(
         error instanceof Error
           ? error.message
           : typeof error === "object" &&
@@ -253,36 +252,6 @@ export const LoginModal = () => {
               !
             </span>
             <span>{error}</span>
-          </div>
-        )}
-
-        {/* Success Alert */}
-        {success && (
-          <div
-            role="status"
-            aria-live="polite"
-            className="
-              flex items-center gap-3
-              rounded-xl
-              border border-emerald-500/20
-              bg-emerald-500/10
-              px-4 py-3
-              text-sm font-medium text-emerald-600 dark:text-emerald-400
-            "
-          >
-            <span
-              className="
-                flex h-6 w-6 shrink-0
-                items-center justify-center
-                rounded-full
-                bg-emerald-500/20
-                text-xs font-bold
-              "
-              aria-hidden="true"
-            >
-              ✓
-            </span>
-            <span>{success}</span>
           </div>
         )}
 

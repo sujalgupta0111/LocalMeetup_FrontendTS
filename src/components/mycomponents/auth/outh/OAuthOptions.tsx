@@ -7,13 +7,13 @@ import {
   GoogleIcon,
 } from "@/components/icons";
 import type { ReactNode } from "react";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSuccess } from "@/store/slices/authSlice";
 import type { AppDispatch } from "@/store/store";
 import { routePaths } from "@/routes/routepaths/routePaths";
 import type { OAuthProvider } from "@/types/types";
+import { notification } from "@/utils/notificationUtils";
 
 type Provider = OAuthProvider;
 
@@ -46,7 +46,6 @@ const providerConfig: Record<Provider, { provider: Provider; label: string; icon
 const OAuthOptions = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
 
   const handleAuthenticated = (response: OAuthAuthResponse) => {
     dispatch(
@@ -61,7 +60,6 @@ const OAuthOptions = () => {
         },
       })
     );
-    setError("");
     navigate(routePaths.dashboardHome, { replace: true });
   };
 
@@ -75,15 +73,10 @@ const OAuthOptions = () => {
             outhconfig={config}
             isLableVisible={false}
             onAuthenticated={handleAuthenticated}
-            onError={setError}
+            onError={(message) => notification.error(message)}
           />
         ))}
       </div>
-      {error && (
-        <p role="alert" className="text-center text-sm text-destructive">
-          {error}
-        </p>
-      )}
     </div>
   );
 };

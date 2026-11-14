@@ -13,6 +13,7 @@ import AccountInfoStep from "@/components/mycomponents/auth/registration/Account
 import PasswordStep from "@/components/mycomponents/auth/registration/PasswordStep";
 import AddressStep from "@/components/mycomponents/auth/registration/AddressStep";
 import { routePaths } from "@/routes/routepaths/routePaths";
+import { notification } from "@/utils/notificationUtils";
 
 interface RegistrationForm {
   firstName: string;
@@ -159,7 +160,6 @@ const RegistrationPage = () => {
   );
 
   const [errors, setErrors] = useState<RegistrationErrors>({});
-  const [submitError, setSubmitError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
@@ -187,7 +187,6 @@ const RegistrationPage = () => {
         [field]: "",
       }));
 
-      setSubmitError("");
     };
 
   const handleNext = (event?: FormEvent | React.MouseEvent): void => {
@@ -226,10 +225,9 @@ const RegistrationPage = () => {
       }
 
       setErrors(passwordErrors);
-      setSubmitError("");
 
       if (Object.keys(passwordErrors).length === 0) {
-        setSubmitError(
+        notification.warning(
           "Password cannot be updated because the backend does not currently provide a password update API. No password was changed."
         );
       }
@@ -249,7 +247,6 @@ const RegistrationPage = () => {
     const allErrors = Object.assign({}, ...stepErrors) as RegistrationErrors;
 
     setErrors(allErrors);
-    setSubmitError("");
 
     if (Object.keys(allErrors).length > 0) {
       const firstInvalidStep = stepErrors.findIndex(
@@ -275,7 +272,7 @@ const RegistrationPage = () => {
     } catch (error: unknown) {
       const apiError = error as ApiError;
 
-      setSubmitError(
+      notification.error(
         apiError.response?.data?.message ??
           apiError.message ??
           "Unable to create your account."
@@ -361,15 +358,6 @@ const RegistrationPage = () => {
             <div className="motion-safe:animate-[account-step-in_220ms_ease-out]">
               <ActiveComponent {...stepProps} />
             </div>
-
-            {submitError && (
-              <div
-                role="alert"
-                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
-              >
-                {submitError}
-              </div>
-            )}
 
             <div
               className={`flex gap-3 pt-2 ${
